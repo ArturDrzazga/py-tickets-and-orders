@@ -86,7 +86,7 @@ class Ticket(models.Model):
                 f"{self.movie_session.show_time} "
                 f"(row: {self.row}, seat: {self.seat})")
 
-    def clean(self):
+    def clean(self) -> None:
         max_rows = self.movie_session.cinema_hall.rows
         max_seats_in_row = self.movie_session.cinema_hall.seats_in_row
 
@@ -102,11 +102,13 @@ class Ticket(models.Model):
                           f" (1, seats_in_row): (1, {max_seats_in_row})"]}
             )
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         self.full_clean()
         super().save(*args, **kwargs)
 
     class Meta:
         constraints = [
-            UniqueConstraint(fields=["row", "seat", "movie_session"], name="unique_ticket"),
+            UniqueConstraint(
+                fields=["row", "seat", "movie_session"],
+                name="unique_ticket"),
         ]
