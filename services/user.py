@@ -1,5 +1,7 @@
-from django.db.models import QuerySet
-from db.models import User
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 def create_user(
@@ -23,7 +25,7 @@ def create_user(
     return user
 
 
-def get_user(user_id: int) -> QuerySet:
+def get_user(user_id: int) -> User | None:
     return User.objects.filter(id=user_id).first()
 
 
